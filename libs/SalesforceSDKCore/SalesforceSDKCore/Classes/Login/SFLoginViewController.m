@@ -699,6 +699,11 @@ BOOL isPreseller = false;
     }
 }
 
+- (void)handleSingleTap:(UITapGestureRecognizer *)recognizer
+{
+    self.languageTableView.hidden = YES;
+}
+
 - (void)setOauthView:(UIView *)oauthView {
     
     
@@ -707,15 +712,25 @@ BOOL isPreseller = false;
         [self.langList addObject:@"ENG"];
         [self.langList addObject:@"TUR"];
         [self.langList addObject:@"RUS"];
-        [self.langList addObject:@"AZR"];
-        [self.view.layer addSublayer:self.playerLayer];
+        self.view.backgroundColor = [UIColor.whiteColor colorWithAlphaComponent:0.9];
+        UIImageView *bottleImage = [[UIImageView alloc] initWithFrame:self.view.layer.bounds];
+        
+        bottleImage.userInteractionEnabled = YES;
+        bottleImage.image = [UIImage imageNamed:@"cci2"];
+        bottleImage.contentMode = UIViewContentModeScaleAspectFill;
+        UITapGestureRecognizer *singleFingerTap =
+          [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                  action:@selector(handleSingleTap:)];
+        [bottleImage addGestureRecognizer:singleFingerTap];
+        [self.view addSubview:bottleImage];
+        //[self.view.layer addSublayer:self.playerLayer];
         [[NSNotificationCenter defaultCenter] addObserver: self
                                                  selector: @selector(replayMovie:)
                                                      name: AVPlayerItemDidPlayToEndTimeNotification
                                                    object:_avPl.currentItem];
         self.cityList = [NSMutableArray new];
         [self.cityList addObject:@"TR"];
-        [self.cityList addObject:@"AZ"];
+        //[self.cityList addObject:@"AZ"];
         [self.cityList addObject:@"IQ"];
         [self.cityList addObject:@"JO"];
         [self.cityList addObject:@"KG"];
@@ -733,7 +748,7 @@ BOOL isPreseller = false;
         
         [self.trCityList removeAllObjects];
         [self.trCityList addObject:@"Türkiye"];
-        [self.trCityList addObject:@"Azerbaycan"];
+        //[self.trCityList addObject:@"Azerbaycan"];
         [self.trCityList addObject:@"Kuzey Iraq"];
         [self.trCityList addObject:@"Ürdün"];
         [self.trCityList addObject:@"Kırgızistan"];
@@ -750,7 +765,7 @@ BOOL isPreseller = false;
         [self.engCityList removeAllObjects];
         
         [self.engCityList addObject:@"Turkey"];
-        [self.engCityList addObject:@"Azerbaijan"];
+        //[self.engCityList addObject:@"Azerbaijan"];
         [self.engCityList addObject:@"North Iraq"];
         [self.engCityList addObject:@"Jordan"];
         [self.engCityList addObject:@"Kyrgyzstan"];
@@ -796,8 +811,9 @@ BOOL isPreseller = false;
             CGRect mainRect = [[UIScreen mainScreen] bounds];
             CGFloat firstY =  (mainRect.size.height/4)-110;
             mainRect = CGRectMake(0, 0, [[UIScreen mainScreen] bounds].size.width - 40, [[UIScreen mainScreen] bounds].size.height);
-            languageTableView = [[UITableView alloc] initWithFrame:CGRectMake(10, 132,  mainRect.size.width-20, 150)
+            languageTableView = [[UITableView alloc] initWithFrame:CGRectMake(10, 52,  mainRect.size.width-20, 176)
                                                              style:UITableViewStylePlain];
+            languageTableView.layer.cornerRadius = 8;
             //  languageTableView.tag = 0;
             languageTableView.delegate = self;
             languageTableView.dataSource = self;
@@ -831,7 +847,7 @@ BOOL isPreseller = false;
             //   self.view.backgroundColor = [UIColor colorWithRed:199.0/255.0 green:0/255.0 blue:17.0/255.0 alpha:1];
             //            self.view.backgroundColor = background;
             
-            CGRect upRect = CGRectMake(mainRect.size.width/2-106, 110, 212, 120);
+            CGRect upRect = CGRectMake(mainRect.size.width/2-106, 110, 150, 85);
             UIImageView *forManagersImageView = [[UIImageView alloc] initWithFrame:upRect];
             
             forManagersImageView.image = [UIImage imageNamed:@"ccim_logo_bottle"];
@@ -839,6 +855,10 @@ BOOL isPreseller = false;
             CGRect centerRect = CGRectMake(0,mainRect.size.height-340, mainRect.size.width, 300);
             
             self.centerView = [[UIView alloc] initWithFrame:centerRect];
+            UITapGestureRecognizer *singleFingerTap =
+              [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                      action:@selector(handleSingleTap:)];
+            [self.centerView addGestureRecognizer:singleFingerTap];
             self.usernameTextField = [[UITextField alloc] initWithFrame:CGRectMake(10, 10, mainRect.size.width-20, 40)];
             UIView *paddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 40, 20)];
             self.usernameTextField.leftViewMode =UITextFieldViewModeAlways;
